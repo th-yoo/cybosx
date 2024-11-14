@@ -1,15 +1,17 @@
 [tool.poetry]
-name = "project"
-version = "0.1.0"
-description = "`project` is a Python package that ..."
+name = "cybosx"
+version = "0.0.1"
+description = "cybosx is a Python package that ..."
 authors = ["th yoo <taihyungyoo@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/th-yoo/project"
+homepage = "https://github.com/th-yoo/cybosx"
 keywords = []
 
 [tool.poetry.dependencies]
 python = "^3.9"
+cybosx-login = "^0.1.0"
+cred-retrieve = "^0.1.3"
 
 [build-system]
 requires = ["poetry-core"]
