@@ -123,6 +123,9 @@ class CpCodeMgr(CybosIfBase):
         #datetime.strptime(listing_date, '%Y-%m-%d').date()
         return datetime(int(d[:4]), int(d[4:6]), int(d[6:]))
 
+    def GetStockListByMarket(self, market: Market):
+        return self.com.GetStockListByMarket(market.value)
+
 
 if __name__ == '__main__':
     cpcodemgr = CpCodeMgr()
