@@ -79,7 +79,7 @@ class StockChart(CybosxIf):
         else:
             beg_date = self.query.beg_date
 
-            def next():
+            def more():
                 nonlocal beg_date
                 n = self._com.GetHeaderValue(RespHKey.n_records.value)
                 if not n:
