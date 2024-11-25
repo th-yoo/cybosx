@@ -121,10 +121,21 @@ class CpCodeMgr(CybosIfBase):
     def GetStockListedDate(self, code: str):
         d = str(self.com.GetStockListedDate(code))
         #datetime.strptime(listing_date, '%Y-%m-%d').date()
-        return datetime(int(d[:4]), int(d[4:6]), int(d[6:]))
+        return datetime(int(d[:4]), int(d[4:6]), int(d[6:])).date()
 
     def GetStockListByMarket(self, market: Market):
         return self.com.GetStockListByMarket(market.value)
+
+    # supervised
+    def GetStockSupervisionKind(self, code: str) -> bool:
+        return bool(self.com.GetStockSupervisionKind(code))
+
+    # alias to GetStockSupervisionKind
+    def IsStockSupervised(self, code: str) -> bool:
+        return self.GetStockSupervisionKind(code)
+
+    def IsStockTradable(self, code: str) -> bool:
+        return not self.com.GetStockStatusKind(code)
 
 
 if __name__ == '__main__':
