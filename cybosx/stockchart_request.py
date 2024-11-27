@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional, Union, List, Tuple
 
 def dateint2datetime(date_int: int) -> datetime:
@@ -163,8 +163,8 @@ class StockChartRequest:
     symbol: str                 = field()
     ohlc: bool                  = field(default=True)
     retrieval_mode: Optional[RetrievalMode]  = field(default=RetrievalMode.NUM)
-    end_date: Optional[Union[datetime,int]]  = field(default=0) 
-    beg_date: Optional[datetime] = field(default=datetime(1997,10,2))
+    end_date: Optional[Union[date,datetime,int]]  = field(default=0) 
+    beg_date: Optional[Union[date,datetime]] = field(default=date(1997,10,2))
     n_record: Optional[int]      = field(default=10000000)
     record_cols: Optional[
         Union[
@@ -200,16 +200,19 @@ class StockChartRequest:
         return val
 
     @staticmethod
-    def _date_validate(field: str, val: datetime):
-        if not isinstance(val, datetime):
+    def _date_validate(field: str, val: Union[datetime,date]) -> int:
+        if not isinstance(val, (datetime, date)):
             raise TypeError(f'Invalid {field} type: {type(val)}')
         return int(val.strftime('%Y%m%d'))
        
     @staticmethod
-    def _beg_date_validate(end_date: int, val: datetime):
-        min_date = datetime(1997,10,2)
+    def _beg_date_validate(end_date: int, val: Union[date, datetime]) -> int:
+        min_date = datetime(1997, 10, 2).date()
 
         rv = StockChartRequest._date_validate('beg_date', val)
+
+        if isinstance(val, datetime):
+            val = val.date()
 
         if val < min_date:
             raise ValueError(f'beg_date is earlier than min_date {min_date}')
@@ -217,7 +220,7 @@ class StockChartRequest:
         # TODO: get the latest market day
         # end_date can be zero
         if end_date and rv > end_date:
-            end_date = dateint2datetime(end_date)
+            end_date = dateint2datetime(end_date).date()
             raise ValueError(f'beg_date is later than end_date {end_date}')
         return rv
 
