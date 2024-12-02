@@ -100,7 +100,7 @@ class RecordCols(set):
                 RecordCol.FOREIGN_LIMIT,
                 RecordCol.FOREIGN_BUYABLE,
                 RecordCol.FOREIGN_SHARES,
-                RecordCol.FOREIGN_RATIO,
+                RecordCol.FOREIGN_PCT,
                 RecordCol.ADJUSTED_DATE,
                 RecordCol.ADJUSTED_RATIO,
                 RecordCol.INST_BOUGHT,
@@ -291,7 +291,7 @@ class StockChartRequest:
     def _validate_timeframe_and_term(self):
         if (
             self.timeframe != Timeframe.DAY and
-            self.retrival_mode == RetrievalMode.TERM
+            self.retrieval_mode == RetrievalMode.TERM
         ):
             raise ValueError('term is only available for day')
 
